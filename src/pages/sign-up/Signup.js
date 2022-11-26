@@ -1,11 +1,44 @@
 import Photo from '../../assets/images/login-photo.jpg'
 import Logo from '../../assets/images/logo.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useRef, useState } from 'react';
+import { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Signup = () => {
+
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordConfirmRef = useRef();
+  const { register, currentUser } = useAuth();
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+      return toast.error('Passwords do not match');
+    }
+
+    try {
+        setLoading(true);
+        const user = await register(emailRef.current.value, passwordRef.current.value, nameRef.current.value);
+        navigate('/');
+    } catch (err) {
+        const arr = err.message.split(/ (.*)/)
+        const str = arr[1].split(' ').slice(0, -1).join(' ');
+        toast.error(str);
+    }
+    setLoading(false);
+  }
+
   return (
     <div className='sign-up' id='sign-up'>
       <div className='left-container'>
+        <Toaster position='top-right' />
         <div className='back-photo'>
           <img src={Photo} alt='login-photo' />
         </div>
@@ -26,33 +59,33 @@ const Signup = () => {
         </div>
       </div>
       <div className='right-container'>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className='title'>
             <h2>Create an account</h2>
             <span>Get started with a 30-day trial</span>
           </div>
           <div className='form-group'>
             <label>Name</label>
-            <input type="text" required />
+            <input ref={nameRef} type="text" required />
           </div>
           <div className='form-group'>
             <label>Email</label>
-            <input type="email" required />
+            <input ref={emailRef} type="email" required />
           </div>
           <div className='form-group'>
             <label>Password</label>
-            <input type='password' required />
+            <input ref={passwordRef} type='password' required />
           </div>
           <div className='form-group'>
             <label>Confirm Password</label>
-            <input type='password' required />
+            <input ref={passwordConfirmRef} type='password' required />
           </div>
           <div id='check'>
             <input type='checkbox' />
             <label>I agree with all terms and conditions</label>
           </div>
           <div id='btn'>
-            <button type='submit'>Create Account</button>
+            <button disabled={loading} type='submit'>Create Account</button>
           </div>
         </form>
         <div className='go-signup'>

@@ -1,12 +1,39 @@
 import Photo from '../../assets/images/login-photo.jpg'
 import Logo from '../../assets/images/logo.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useRef, useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
+import toast from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast'
 
 const Login = () => {
+
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const { login, currentUser } = useAuth();
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        try {
+            setLoading(true)
+            await login(emailRef.current.value, passwordRef.current.value)
+            navigate('/');
+        } catch (err) {
+            const arr = err.message.split(/ (.*)/)
+            const str = arr[1].split(' ').slice(0, -1).join(' ');
+            toast.error(str);
+        }
+
+        setLoading(false)
+    }
 
   return (
     <div className='login' id='login'>
             <div className='left-container'>
+                <Toaster position='top-right' />
                 <div className='back-photo'>
                     <img src={Photo} alt='login-photo' />
                 </div>
@@ -27,22 +54,22 @@ const Login = () => {
                 </div>
             </div>
             <div className='right-container'>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <h2>Sign In</h2>
                     <div className='form-group'>
                         <label>Email</label>
-                        <input type="email" required />
+                        <input ref={emailRef} type="email" required />
                     </div>
                     <div className='form-group'>
                         <label>Password</label>
-                        <input type='password' required />
+                        <input ref={passwordRef} type='password' required />
                     </div>
                     <div id='check'>
                         <input type='checkbox' />
                         <label>Remember Me</label>
                     </div>
                     <div id='btn'>
-                        <button type='submit'>Login</button>
+                        <button disabled={loading} type='submit'>Login</button>
                     </div>
                 </form>
                 <div className='go-signup'>

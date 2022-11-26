@@ -2,10 +2,32 @@ import Logo from '../../assets/images/logo.png'
 import Avatar from '../../assets/images/zelenski.jpg'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import { useAuth } from '../../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 const Header = () => {
 
-    const [login, setLogin] = useState(false);
+    const { currentUser, logout } = useAuth();
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    async function handleClick(e) {
+        e.preventDefault();
+
+        try {
+            setLoading(true)
+            await logout()
+            console.log(currentUser);
+            navigate('/login');
+        } catch (err) {
+            const arr = err.message.split(/ (.*)/)
+            const str = arr[1].split(' ').slice(0, -1).join(' ');
+            toast.error(str);
+        }
+
+        setLoading(false)
+    }
 
   return (
     <div className='header' main='header'>
@@ -25,13 +47,14 @@ const Header = () => {
                 </ul>
             </div>
             <div className='header-right'>
-                {login ? (
-                    <>
+                {currentUser ? (
+                    <div style={{display: 'flex', alignItems: 'center'}}>
                         <div className='avatar-container'>
                             <img src={Avatar} alt='avatar' />
                         </div>
-                        <span>Vugar Abdulali</span>
-                    </>
+                        <span>{currentUser.displayName}</span>
+                        <button disabled={loading} onClick={handleClick} id='logout'>Logout</button>
+                    </div>
                 ) : (
                     <>
                         <div className='login-container'>
