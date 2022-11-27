@@ -6,9 +6,6 @@ const Home = () => {
 
   const {
     transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition
   } = useSpeechRecognition();
 
   return (
@@ -33,7 +30,7 @@ const Home = () => {
           <div className="container">
             <span id="mic">Speak:</span>
             <div className="toggle-switch">
-                <input onChange={(e) => e.target.checked ? SpeechRecognition.stopListening : SpeechRecognition.startListening({ continuous: true })} type="checkbox" className="checkbox"
+              <input onChange={(e) => e.target.checked ? SpeechRecognition.startListening({ continuous: true }) : SpeechRecognition.stopListening()} type="checkbox" className="checkbox"
                     name='speak' id='speak' />
                 <label className="label" htmlFor='speak'>
                     <span className="inner" />
