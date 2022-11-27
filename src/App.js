@@ -21,11 +21,11 @@ function App() {
           <Route path='/' element={<Layout />}>
             <Route path='/' element={<PrivateRoute />}>
               <Route index element={<Home />} />
-            </Route>
             <Route path='price' element={<Price />} />
             <Route path='what-we-do' element={<WhatWeDo />} />
             <Route path='about' element={<About />} />
             <Route path='faq' element={<Faq />} />
+            </Route>
           </Route>
           <Route path='login' element={<Login />} />
           <Route path='signup' element={<Signup />} />

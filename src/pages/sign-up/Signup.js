@@ -12,7 +12,7 @@ const Signup = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { register, currentUser } = useAuth();
+  const { register } = useAuth();
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
 
@@ -25,12 +25,12 @@ const Signup = () => {
 
     try {
         setLoading(true);
-        const user = await register(emailRef.current.value, passwordRef.current.value, nameRef.current.value);
+        await register(emailRef.current.value, passwordRef.current.value, nameRef.current.value);
         navigate('/');
     } catch (err) {
-        const arr = err.message.split(/ (.*)/)
-        const str = arr[1].split(' ').slice(0, -1).join(' ');
-        toast.error(str);
+        // const arr = err.message.split(/ (.*)/)
+        // const str = arr[1].split(' ').slice(0, -1).join(' ');
+        toast.error(err.message);
     }
     setLoading(false);
   }
@@ -40,7 +40,7 @@ const Signup = () => {
       <div className='left-container'>
         <Toaster position='top-right' />
         <div className='back-photo'>
-          <img src={Photo} alt='login-photo' />
+          <img src={Photo} alt='login' />
         </div>
         <div className='info-container'>
           <div className='logo-container'>
@@ -81,7 +81,7 @@ const Signup = () => {
             <input ref={passwordConfirmRef} type='password' required />
           </div>
           <div id='check'>
-            <input type='checkbox' />
+            <input required type='checkbox' />
             <label>I agree with all terms and conditions</label>
           </div>
           <div id='btn'>

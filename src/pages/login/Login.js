@@ -1,5 +1,6 @@
 import Photo from '../../assets/images/login-photo.jpg'
 import Logo from '../../assets/images/logo.png'
+import GoogleLogo from '../../assets/images/google-logo.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { useRef, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
@@ -10,7 +11,7 @@ const Login = () => {
 
     const emailRef = useRef();
     const passwordRef = useRef();
-    const { login, currentUser } = useAuth();
+    const { login, signWithGoogle } = useAuth();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -22,12 +23,27 @@ const Login = () => {
             await login(emailRef.current.value, passwordRef.current.value)
             navigate('/');
         } catch (err) {
-            const arr = err.message.split(/ (.*)/)
-            const str = arr[1].split(' ').slice(0, -1).join(' ');
-            toast.error(str);
+            // const arr = err.message.split(/ (.*)/)
+            // const str = arr[1].split(' ').slice(0, -1).join(' ');
+            toast.error(err.message);
         }
 
         setLoading(false)
+    }
+
+    async function handleGoogle() {
+        
+        try {
+            setLoading(true)
+            await signWithGoogle();
+            navigate('/');
+        } catch (err) {
+            // const arr = err.message.split(/ (.*)/)
+            // const str = arr[1].split(' ').slice(0, -1).join(' ');
+            toast.error(err.message);
+        }
+        setLoading(false)
+
     }
 
   return (
@@ -35,7 +51,7 @@ const Login = () => {
             <div className='left-container'>
                 <Toaster position='top-right' />
                 <div className='back-photo'>
-                    <img src={Photo} alt='login-photo' />
+                    <img src={Photo} alt='login' />
                 </div>
                 <div className='info-container'>
                     <div className='logo-container'>
@@ -68,10 +84,18 @@ const Login = () => {
                         <input type='checkbox' />
                         <label>Remember Me</label>
                     </div>
-                    <div id='btn'>
+                    <div className='btn'>
                         <button disabled={loading} type='submit'>Login</button>
                     </div>
                 </form>
+                <div className='google-container'>
+                    <div onClick={handleGoogle} id='google-btn'>
+                        <div className='google-img'>
+                            <img src={GoogleLogo} alt='google-login' />
+                        </div>
+                        <span>Sign In with Google</span>
+                    </div>
+                </div>
                 <div className='go-signup'>
                     <span>New to Speak2Me? </span><Link id='sign-link' to='/signup'>Register</Link>
                 </div>
