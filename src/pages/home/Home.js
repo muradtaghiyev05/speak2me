@@ -1,11 +1,15 @@
 import SearchIcon from '../../assets/images/search-bar.svg'
-import MicIcon from '../../assets/images/microphone.svg'
-import ToggleSwitch from '../../components/toggle/Toggle'
-import { useState } from 'react'
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+
 
 const Home = () => {
 
-  const [checked, setChecked] = useState(false);
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition
+  } = useSpeechRecognition();
 
   return (
     <div className="home" id="home">
@@ -19,14 +23,24 @@ const Home = () => {
           </div>
         </form>
         <div className='speech-container'>
-          {checked ? (
-            <p>You my start your speech...</p>
+          {transcript ? (
+            <p>{transcript}</p>
           ) : (
-            <p>Your speech will be converted to text and displayed here!</p>
+            <p>Your speech will be converted to text...</p>
           )}
         </div>
         <div className='mic-container'>
-          <ToggleSwitch setChecked={setChecked} label='Speak' />
+          <div className="container">
+            <span id="mic">Speak:</span>
+            <div className="toggle-switch">
+                <input onChange={(e) => e.target.checked ? SpeechRecognition.stopListening : SpeechRecognition.startListening({ continuous: true })} type="checkbox" className="checkbox"
+                    name='speak' id='speak' />
+                <label className="label" htmlFor='speak'>
+                    <span className="inner" />
+                    <span className="switch" />
+                </label>
+            </div>
+        </div>
         </div>
       </div>
     </div>
