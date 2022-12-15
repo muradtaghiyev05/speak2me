@@ -28,6 +28,7 @@ A platform to hone your English skills
 
 - #### React
 - #### React Router Dom
+- #### Context Api
 - #### Sass
 - #### Axios
 - #### Firebase
