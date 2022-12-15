@@ -2,12 +2,12 @@ import {initializeApp} from 'firebase/app';
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyA2aJe9_HC_lVkE2-kWXiHWlAQnHbd_iI8",
-    authDomain: "speak2me-auth.firebaseapp.com",
-    projectId: "speak2me-auth",
-    storageBucket: "speak2me-auth.appspot.com",
-    messagingSenderId: "920524965808",
-    appId: "1:920524965808:web:54ef247fb1debee25eb875"
+    apiKey: "your_key",
+    authDomain: "your_domain",
+    projectId: "your_id",
+    storageBucket: "your_storage",
+    messagingSenderId: "your_sender_id",
+    appId: "your_app_id"
 };
 
 const app = initializeApp(firebaseConfig);
