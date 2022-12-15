@@ -55,3 +55,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ### To build project:-
 
 ### `npm run build`
+
+### Firebase
+
+### You also need to create a new Firebase project for the authentication
+
