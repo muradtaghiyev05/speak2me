@@ -25,11 +25,13 @@ A platform to hone your English skills
 - The user can sign up and log in with Firebase
 - The user can also sign in with Google
 - The user can turn on the microphone and his speech will be displayed on the screen
+- The user cannot use the app until signing in
 
 ### Built With
 
 - #### React
 - #### React Router Dom
+- #### Private Routes
 - #### Context Api
 - #### Sass
 - #### Axios
