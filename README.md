@@ -16,6 +16,8 @@
 
 ![Home page](https://github.com/muradtaghiyev05/speak2me/blob/main/speak2me.jpg "Speak2Me")
 
+Demo: https://speak2me.ml/
+
 A platform to hone your English skills
 
 #### The common funtionalities are:-
